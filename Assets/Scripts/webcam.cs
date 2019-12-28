@@ -5,23 +5,27 @@ using UnityEngine.UI;
 
 public class webcam : MonoBehaviour
 {
+    public RawImage background;
+    
     void Start()
     {
+
         WebCamDevice[] devices = WebCamTexture.devices;
 
-        // for debugging purposes, prints available devices to the console
+        // setting default camera
+        WebCamTexture camera = new WebCamTexture(devices[0].name);
+
         for (int i = 0; i < devices.Length; i++)
         {
-            print("Webcam available: " + devices[i].name);
+            // setting Many Webcam as camera if found
+            if (devices[i].name == "ManyCam Virtual Webcam")
+            {
+                camera = new WebCamTexture(devices[i].name);
+            }
         }
-
-        Renderer rend = this.GetComponent<SpriteRenderer>();
-
         
-        // assuming the first available WebCam is desired
-        WebCamTexture tex = new WebCamTexture(devices[0].name);
-        tex.Play();
-        rend.material.mainTexture = tex;
+        camera.Play();
+        background.texture = camera;
         
     }
 }

@@ -11,13 +11,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/1_Calibration.unity
     guid: deaf795e25158ea49bb7ab7f5fc64ab1
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/2_BrickWall.unity
     guid: 12c9e6fcb045aaf409a00ad1797ac013
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/3_Fence.unity
     guid: 5210dc4d02b85f141a510081b959044f
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/4_MetalWall.unity
     guid: ab1a00ef741632c46a9101e5037a3cea
   m_configObjects: {}
