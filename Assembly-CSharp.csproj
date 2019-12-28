@@ -63,6 +63,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\CalibrationNextSceneButton.cs" />
+    <Compile Include="Assets\Scripts\1\Universe.cs" />
     <Compile Include="Assets\Scripts\1_Calibration\CalibrationButtonHandler.cs" />
     <Compile Include="Assets\Scripts\1_Calibration\CalibrationUniverse.cs" />
     <Compile Include="Assets\Scripts\2_BrickWall\BrickWallButtonHandler.cs" />
@@ -71,18 +72,17 @@
     <Compile Include="Assets\Scripts\3_Fence\FenceUniverse.cs" />
     <Compile Include="Assets\Scripts\4_MetalWall\MetalWallButtonHandler.cs" />
     <Compile Include="Assets\Scripts\4_MetalWall\MetalWallUniverse.cs" />
+    <Compile Include="Assets\Scripts\Menu\ButtonHandler.cs" />
+    <Compile Include="Assets\Scripts\MenuButtonHandler.cs" />
     <Compile Include="Assets\Scripts\UDPReceiver.cs" />
     <Compile Include="Assets\Scripts\UDPSocket.cs" />
     <Compile Include="Assets\Scripts\UniverseScript.cs" />
-    <Compile Include="Assets\Scripts\webcam.cs" />
+    <Compile Include="Assets\Scripts\WebcamStream.cs" />
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>C:/Unity Projects/UDPReceiver/UDPReceiver/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.VSCode.Editor">
       <HintPath>C:/Unity Projects/UDPReceiver/UDPReceiver/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="VuforiaScripts">
-      <HintPath>C:/Unity Projects/UDPReceiver/UDPReceiver/Library/ScriptAssemblies/VuforiaScripts.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro.Editor">
       <HintPath>C:/Unity Projects/UDPReceiver/UDPReceiver/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
@@ -92,9 +92,6 @@
     </Reference>
     <Reference Include="Unity.Timeline">
       <HintPath>C:/Unity Projects/UDPReceiver/UDPReceiver/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
-    </Reference>
-    <Reference Include="VuforiaEditorScripts">
-      <HintPath>C:/Unity Projects/UDPReceiver/UDPReceiver/Library/ScriptAssemblies/VuforiaEditorScripts.dll</HintPath>
     </Reference>
     <Reference Include="Unity.CollabProxy.Editor">
       <HintPath>C:/Unity Projects/UDPReceiver/UDPReceiver/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
@@ -290,9 +287,6 @@
     </Reference>
     <Reference Include="UnityEngine.XRModule">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.2.2f1/Editor/Data/Managed/UnityEngine/UnityEngine.XRModule.dll</HintPath>
-    </Reference>
-    <Reference Include="Vuforia.UnityExtensions">
-      <HintPath>C:/Unity Projects/UDPReceiver/UDPReceiver/Library/PackageCache/com.ptc.vuforia.engine@8.5.9/Vuforia/Plugins/Managed/Runtime/Vuforia.UnityExtensions.dll</HintPath>
     </Reference>
     <Reference Include="netstandard">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.2.2f1/Editor/Data/NetStandard/ref/2.0.0/netstandard.dll</HintPath>
