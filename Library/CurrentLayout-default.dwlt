@@ -45,7 +45,7 @@ MonoBehaviour:
     y: 0
     width: 1500
     height: 918
-  m_MinSize: {x: 950, y: 544}
+  m_MinSize: {x: 950, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
 --- !u!114 &3
 MonoBehaviour:
@@ -409,7 +409,7 @@ MonoBehaviour:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: 74fbffff
+      m_ExpandedIDs: 2cf3ffff5af3fffffcf3ffff00f4ffff04f4ffff08f4ffff16f4ffff1af4ffff8cf5ffffbcf5ffff5ef6ffff62f6ffff66f6ffff6af6ffff78f6ffff7cf6ffffc0faffff74fbffffb0390000863e0000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -661,19 +661,19 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Scripts
+    - Assets/Images
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Scripts
+  - Assets/Images
   m_LastFoldersGridSize: -1
   m_LastProjectPath: C:\Unity Projects\UDPReceiver\UDPReceiver
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: e22d0000
-    m_LastClickedID: 11746
+    m_SelectedIDs: d2350000
+    m_LastClickedID: 13778
     m_ExpandedIDs: 00000000642d00007a3900007c39000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -729,7 +729,7 @@ MonoBehaviour:
   m_ListAreaState:
     m_SelectedInstanceIDs: 
     m_LastClickedInstanceID: 0
-    m_HadKeyboardFocusLastEvent: 0
+    m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: c623000000000000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
