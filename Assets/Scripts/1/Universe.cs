@@ -23,12 +23,11 @@ public class Universe : MonoBehaviour
     GameObject[] balloons;
 
     // DR, DL, UR, UL, SR, SL
-    int[] balloonsX = { 2, -2, 2, -2, 6, -6 };
-    int[] balloonsY = { -3, -3, 1, 1, -1, -1 };
+    float[] balloonsX = { 2f, -2.2f, 2f, -2.2f, 6.2f, -6.3f };
+    float[] balloonsY = { -3.5f, -3.5f, 1.2f, 1.2f, -1.2f, -1.2f };
 
-    int maxNumberOfBalloonsOnScreen = 3;
+
     int numberOfBalloonsOnScreen = 0;
-    int maxNumberOfBalloonsInTotal = 15;
     int numberOfBalloonsInTotal = 0;
 
 
@@ -47,7 +46,6 @@ public class Universe : MonoBehaviour
     }
 
     private float nextActionTime = 0.0f;
-    public float period = 2.0f;
 
     // Update is called once per frame
     void Update()
@@ -60,10 +58,10 @@ public class Universe : MonoBehaviour
 
         if (Time.timeSinceLevelLoad > nextActionTime)
         {
-            nextActionTime += Random.Range(2, 5);
+            nextActionTime += Random.Range(Global.timeToNextBalloonMin, Global.timeToNextBalloonMax);
 
-            if (numberOfBalloonsOnScreen < maxNumberOfBalloonsOnScreen &&
-                numberOfBalloonsInTotal < maxNumberOfBalloonsInTotal)
+            if (numberOfBalloonsOnScreen < Global.maxNumberOfBalloonsOnScreen &&
+                numberOfBalloonsInTotal < Global.maxNumberOfBalloonsInTotal)
             {
                 InstantiateRandomPositionedBalloon();
             }
@@ -73,18 +71,14 @@ public class Universe : MonoBehaviour
     }
 
 
-
-    float speed = 2.0f; //how fast it moves
-    float amount = 0.005f; //how much it moves
-
     public void MoveBalloon(GameObject balloon)
     {
 
         if (balloon != null)
         {
             Vector3 p = balloon.transform.position;
-            p.x = balloon.transform.position.x + Mathf.Sin(Time.time * speed) * amount;
-            p.y = balloon.transform.position.y + Mathf.Cos(Time.time * speed) * amount;
+            p.x = balloon.transform.position.x + Mathf.Sin(Time.time * Global.balloonAnimationSpeed) * Global.balloonAnimationDelta;
+            p.y = balloon.transform.position.y + Mathf.Cos(Time.time * Global.balloonAnimationSpeed) * Global.balloonAnimationDelta;
             balloon.transform.position = p;
         }
     }
@@ -187,7 +181,7 @@ public class Universe : MonoBehaviour
                 break;
         }
 
-        if (numberOfBalloonsInTotal == maxNumberOfBalloonsInTotal)
+        if (numberOfBalloonsInTotal == Global.maxNumberOfBalloonsInTotal)
         {
             nextSceneButton.SetActive(true);
         }

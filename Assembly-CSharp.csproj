@@ -64,19 +64,14 @@
   <ItemGroup>
     <Compile Include="Assets\CalibrationNextSceneButton.cs" />
     <Compile Include="Assets\Scripts\1\Universe.cs" />
-    <Compile Include="Assets\Scripts\1_Calibration\CalibrationButtonHandler.cs" />
-    <Compile Include="Assets\Scripts\1_Calibration\CalibrationUniverse.cs" />
-    <Compile Include="Assets\Scripts\2_BrickWall\BrickWallButtonHandler.cs" />
-    <Compile Include="Assets\Scripts\2_BrickWall\BrickWallUniverse.cs" />
-    <Compile Include="Assets\Scripts\3_Fence\FenceButtonHandler.cs" />
-    <Compile Include="Assets\Scripts\3_Fence\FenceUniverse.cs" />
-    <Compile Include="Assets\Scripts\4_MetalWall\MetalWallButtonHandler.cs" />
-    <Compile Include="Assets\Scripts\4_MetalWall\MetalWallUniverse.cs" />
+    <Compile Include="Assets\Scripts\2\Universe2.cs" />
+    <Compile Include="Assets\Scripts\3\Universe3.cs" />
+    <Compile Include="Assets\Scripts\4\Universe4.cs" />
+    <Compile Include="Assets\Scripts\Global.cs" />
     <Compile Include="Assets\Scripts\Menu\ButtonHandler.cs" />
     <Compile Include="Assets\Scripts\MenuButtonHandler.cs" />
     <Compile Include="Assets\Scripts\UDPReceiver.cs" />
     <Compile Include="Assets\Scripts\UDPSocket.cs" />
-    <Compile Include="Assets\Scripts\UniverseScript.cs" />
     <Compile Include="Assets\Scripts\WebcamStream.cs" />
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>C:/Unity Projects/UDPReceiver/UDPReceiver/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
