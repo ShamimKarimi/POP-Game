@@ -183,7 +183,7 @@ public class Universe : MonoBehaviour
 
         if (numberOfBalloonsInTotal == Global.maxNumberOfBalloonsInTotal)
         {
-            nextSceneButton.SetActive(true);
+           // nextSceneButton.SetActive(true);
         }
     }
 

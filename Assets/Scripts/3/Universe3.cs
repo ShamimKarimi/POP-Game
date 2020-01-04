@@ -8,13 +8,17 @@ public class Universe3 : MonoBehaviour
     // Reference to the Prefab. Drag a Prefab into this field in the Inspector.
     public GameObject green_balloon;
     public GameObject red_balloon;
-    public GameObject yellow_balloon;
     public GameObject blue_balloon;
-    public GameObject pink_balloon;
-    public GameObject cyan_balloon;
+
+    public GameObject green;
+    public GameObject red;
+    public GameObject blue;
+
     public AudioClip pop;
     public AudioClip blop;
     AudioSource audioSource;
+
+    GameObject canvas;
 
     // UI
     GameObject nextSceneButton;
@@ -26,6 +30,9 @@ public class Universe3 : MonoBehaviour
     float[] balloonsX = { 2f, -2.2f, 2f, -2.2f, 6.2f, -6.3f };
     float[] balloonsY = { -3.5f, -3.5f, 1.2f, 1.2f, -1.2f, -1.2f };
 
+    float[] balloonsInstantiationTime;
+
+    GameObject colorIndicator;
 
     int numberOfBalloonsOnScreen = 0;
     int numberOfBalloonsInTotal = 0;
@@ -36,11 +43,16 @@ public class Universe3 : MonoBehaviour
     {
 
         balloons = new GameObject[6];
+        balloonsInstantiationTime = new float[6];
 
         audioSource = GetComponent<AudioSource>();
 
+        canvas = GameObject.Find("Canvas");
+
         //nextSceneButton = GameObject.Find("NextSceneButton");
         //nextSceneButton.SetActive(false);
+
+        colorIndicator = InstantiateRandomColor();
 
 
     }
@@ -50,6 +62,23 @@ public class Universe3 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        for (int i = 0; i < 6; i++)
+        {
+            if (balloons[i] != null)
+            {
+                if (!balloons[i].name.Substring(0, 1).Equals(colorIndicator.name.Substring(0, 1)))
+                {
+                    if ((balloonsInstantiationTime[i] != 0) && (Time.timeSinceLevelLoad - balloonsInstantiationTime[i] > 5))
+                    {
+                        balloonsInstantiationTime[i] = 0;
+                        numberOfBalloonsOnScreen--;
+                        Destroy(balloons[i], 0);
+                    } 
+                }
+            }
+
+        }
 
         foreach (GameObject balloon in balloons)
         {
@@ -96,6 +125,7 @@ public class Universe3 : MonoBehaviour
             if (balloons[randomIndex] == null)
             {
                 balloons[randomIndex] = InstantiateRandomColoredBalloon(balloonsX[randomIndex], balloonsY[randomIndex]);
+                balloonsInstantiationTime[randomIndex] = Time.timeSinceLevelLoad;
                 instantiatedBalloon = balloons[randomIndex];
             }
         }
@@ -104,7 +134,7 @@ public class Universe3 : MonoBehaviour
 
     public GameObject InstantiateRandomColoredBalloon(float positionX, float positionY)
     {
-        int random = Random.Range(0, 6);
+        int random = Random.Range(0, 3);
         Object original;
 
         switch (random)
@@ -116,16 +146,7 @@ public class Universe3 : MonoBehaviour
                 original = red_balloon;
                 break;
             case 2:
-                original = yellow_balloon;
-                break;
-            case 3:
                 original = blue_balloon;
-                break;
-            case 4:
-                original = pink_balloon;
-                break;
-            case 5:
-                original = cyan_balloon;
                 break;
             default:
                 original = green_balloon;
@@ -139,6 +160,32 @@ public class Universe3 : MonoBehaviour
     {
         audioSource.PlayOneShot(blop, 0.7F);
         return Instantiate(original, new Vector3(positionX, positionY, 0), Quaternion.identity) as GameObject;
+    }
+
+    public GameObject InstantiateRandomColor()
+    {
+        int random = Random.Range(0, 6);
+        Object original;
+
+        switch (random)
+        {
+            case 0:
+                original = green;
+                break;
+            case 1:
+                original = red;
+                break;
+            case 2:
+                original = blue;
+                break;
+            default:
+                original = green;
+                break;
+        }
+
+        GameObject color = Instantiate(original, new Vector3(Global.colorX, Global.colorY, 0), Quaternion.identity) as GameObject;
+        color.transform.SetParent(canvas.transform, false);
+        return color;
     }
 
     public void OnMovement(string position)
@@ -183,7 +230,7 @@ public class Universe3 : MonoBehaviour
 
         if (numberOfBalloonsInTotal == Global.maxNumberOfBalloonsInTotal)
         {
-            nextSceneButton.SetActive(true);
+            // nextSceneButton.SetActive(true);
         }
     }
 

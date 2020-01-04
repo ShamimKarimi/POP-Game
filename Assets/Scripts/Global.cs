@@ -5,7 +5,7 @@ using UnityEngine;
 public static class Global
 {
 
-    public static int maxNumberOfBalloonsOnScreen = 3;
+    public static int maxNumberOfBalloonsOnScreen = 5;
     public static int maxNumberOfBalloonsInTotal = 15;
 
     public static float balloonAnimationSpeed = 2.0f; //how fast it moves
@@ -15,5 +15,9 @@ public static class Global
 
     public static int timeToNextBalloonMin = 2;
     public static int timeToNextBalloonMax = 5;
+
+    public static int colorX = -800;
+    public static int colorY = 400;
+
 
 }
