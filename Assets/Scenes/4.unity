@@ -250,16 +250,14 @@ MonoBehaviour:
     type: 3}
   red_balloon: {fileID: 4330610602132746248, guid: 116e3c0d6a874274e9036045e60efe27,
     type: 3}
-  yellow_balloon: {fileID: 5203154731277233386, guid: 674d908ea082ed54191d51bcf7b3bd89,
-    type: 3}
   blue_balloon: {fileID: 3674375051645715687, guid: db0b6d48ded7a604483cdb2394481aaa,
     type: 3}
-  pink_balloon: {fileID: 8355413574120964462, guid: 57b204679d5344947add5875fffcf3c5,
-    type: 3}
-  cyan_balloon: {fileID: 1891186996851870834, guid: 1e71b92a4dba90e4b9c0fc717c162f4c,
-    type: 3}
+  green: {fileID: 6303015347132251113, guid: a529fb42a940e1b40b034d86f02c318d, type: 3}
+  red: {fileID: 5918017803325172149, guid: faff3f0007aea3e4ebcd09a20a2dbe15, type: 3}
+  blue: {fileID: 4248438158126863382, guid: e77b67c71c5bedc4b85032d591e31d06, type: 3}
   pop: {fileID: 8300000, guid: 7a1198e48e1d4ab4cb7fa14832704cc1, type: 3}
   blop: {fileID: 8300000, guid: 9c0da6cb9e116134fbae6ffe058aeeb9, type: 3}
+  error: {fileID: 8300000, guid: 49513ddee8aa54de7bd04b01aef61eb1, type: 3}
 --- !u!4 &395282055
 Transform:
   m_ObjectHideFlags: 0
@@ -301,7 +299,7 @@ RectTransform:
   m_GameObject: {fileID: 616545035}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 1.5, z: 1}
   m_Children: []
   m_Father: {fileID: 927078926}
   m_RootOrder: 0
@@ -624,8 +622,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -30, y: 30}
-  m_SizeDelta: {x: 50, y: 50}
+  m_AnchoredPosition: {x: -80, y: 80}
+  m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1665261028
 MonoBehaviour:

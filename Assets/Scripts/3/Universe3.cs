@@ -16,12 +16,10 @@ public class Universe3 : MonoBehaviour
 
     public AudioClip pop;
     public AudioClip blop;
+    public AudioClip error;
     AudioSource audioSource;
 
     GameObject canvas;
-
-    // UI
-    GameObject nextSceneButton;
 
     // Array of balloons
     GameObject[] balloons;
@@ -37,6 +35,8 @@ public class Universe3 : MonoBehaviour
     int numberOfBalloonsOnScreen = 0;
     int numberOfBalloonsInTotal = 0;
 
+    float[] lastErrorSoundTime;
+
 
     // Start is called before the first frame update
     void Start()
@@ -44,13 +44,11 @@ public class Universe3 : MonoBehaviour
 
         balloons = new GameObject[6];
         balloonsInstantiationTime = new float[6];
+        lastErrorSoundTime = new float[6];
 
         audioSource = GetComponent<AudioSource>();
 
         canvas = GameObject.Find("Canvas");
-
-        //nextSceneButton = GameObject.Find("NextSceneButton");
-        //nextSceneButton.SetActive(false);
 
         colorIndicator = InstantiateRandomColor();
 
@@ -69,9 +67,10 @@ public class Universe3 : MonoBehaviour
             {
                 if (!balloons[i].name.Substring(0, 1).Equals(colorIndicator.name.Substring(0, 1)))
                 {
-                    if ((balloonsInstantiationTime[i] != 0) && (Time.timeSinceLevelLoad - balloonsInstantiationTime[i] > 5))
+                    if ((!Equals(balloonsInstantiationTime[i], 0)) && (Time.timeSinceLevelLoad - balloonsInstantiationTime[i] > 5))
                     {
                         balloonsInstantiationTime[i] = 0;
+                        lastErrorSoundTime[i] = 0;
                         numberOfBalloonsOnScreen--;
                         Destroy(balloons[i], 0);
                     } 
@@ -164,7 +163,7 @@ public class Universe3 : MonoBehaviour
 
     public GameObject InstantiateRandomColor()
     {
-        int random = Random.Range(0, 6);
+        int random = Random.Range(0, 3);
         Object original;
 
         switch (random)
@@ -195,33 +194,27 @@ public class Universe3 : MonoBehaviour
         switch (position)
         {
             case "DR":
-                OnPop(balloons[0]);
-                balloons[0] = null;
+                OnPop(0);
                 break;
 
             case "DL":
-                OnPop(balloons[1]);
-                balloons[1] = null;
+                OnPop(1);
                 break;
 
             case "UR":
-                OnPop(balloons[2]);
-                balloons[2] = null;
+                OnPop(2);
                 break;
 
             case "UL":
-                OnPop(balloons[3]);
-                balloons[3] = null;
+                OnPop(3);
                 break;
 
             case "SR":
-                OnPop(balloons[4]);
-                balloons[4] = null;
+                OnPop(4);
                 break;
 
             case "SL":
-                OnPop(balloons[5]);
-                balloons[5] = null;
+                OnPop(5);
                 break;
 
             default:
@@ -230,18 +223,32 @@ public class Universe3 : MonoBehaviour
 
         if (numberOfBalloonsInTotal == Global.maxNumberOfBalloonsInTotal)
         {
-            // nextSceneButton.SetActive(true);
+            // end of game
         }
     }
 
-    public void OnPop(GameObject balloon)
+    public void OnPop(int index)
     {
-        if (balloon != null)
+        if (balloons[index] != null)
         {
-            numberOfBalloonsOnScreen--;
-            audioSource.PlayOneShot(pop, 0.7F);
-            balloon.GetComponent<Animator>().enabled = true;
-            Destroy(balloon, 0.333f);
+            if (balloons[index].name.Substring(0, 1).Equals(colorIndicator.name.Substring(0, 1)))
+            {
+                numberOfBalloonsOnScreen--;
+                audioSource.PlayOneShot(pop, 0.7F);
+                balloons[index].GetComponent<Animator>().enabled = true;
+                Destroy(balloons[index], 0.333f);
+                balloons[index] = null;
+            } else
+            {
+                if ((!Equals(lastErrorSoundTime[index], 0))
+                    && (Time.timeSinceLevelLoad - lastErrorSoundTime[index] > Global.intervalBetweenErrorSounds))
+                {
+                    lastErrorSoundTime[index] = Time.timeSinceLevelLoad;
+                    audioSource.PlayOneShot(error, 0.7F);
+                }
+                
+            }
+
         }
     }
 

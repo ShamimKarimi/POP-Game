@@ -1,0 +1,35 @@
+﻿<Properties StartupConfiguration="{454F68FC-AD6A-3CBB-CCBF-E94441C2F9B0}|">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/4/Universe4.cs">
+    <Files>
+      <File FileName="Assets/Scripts/3/Universe3.cs" Line="75" Column="49" />
+      <File FileName="Assets/Scripts/4/Universe4.cs" Line="85" Column="14" />
+      <File FileName="Assets/Scripts/2/Universe2.cs" Line="190" Column="6" />
+      <File FileName="Assets/Scripts/Global.cs" Line="22" Column="54" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="POP-Game" expanded="True">
+            <Node name="Assets" expanded="True">
+              <Node name="Scripts" expanded="True">
+                <Node name="1" expanded="True" />
+                <Node name="2" expanded="True" />
+                <Node name="3" expanded="True" />
+                <Node name="4" expanded="True">
+                  <Node name="Universe4.cs" selected="True" />
+                </Node>
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="0335f1c5-2bb4-4ee1-a49e-058f743d7e31" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>

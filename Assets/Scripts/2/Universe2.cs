@@ -23,7 +23,7 @@ public class Universe2 : MonoBehaviour
     GameObject[] balloons;
 
     // left to right
-    float[] balloonsX = { -6.8f, -2.35f, 2.1f, 6.55f };
+    float[] balloonsX = { -6.3f, -2.2f, 2f, 6.2f };
 
     int numberOfBalloonsInTotal = 0;
 
@@ -178,14 +178,11 @@ public class Universe2 : MonoBehaviour
             case "SL":
                 OnPop(0, yLevelMin[1], yLevelMax[1]);
                 break;
-
-            default:
-                break;
         }
 
         if (numberOfBalloonsInTotal == Global.maxNumberOfBalloonsInTotal)
         {
-            nextSceneButton.SetActive(true);
+            // end of game
         }
     }
 
