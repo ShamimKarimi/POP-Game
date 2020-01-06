@@ -194,7 +194,7 @@ public class Universe : MonoBehaviour
             numberOfBalloonsOnScreen--;
             audioSource.PlayOneShot(pop, 0.7F);
             balloon.GetComponent<Animator>().enabled = true;
-            Destroy(balloon, 0.333f);
+            Destroy(balloon, Global.popAnimationDuration);
         }
     }
 

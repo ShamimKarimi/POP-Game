@@ -236,7 +236,7 @@ public class Universe3 : MonoBehaviour
                 numberOfBalloonsOnScreen--;
                 audioSource.PlayOneShot(pop, 0.7F);
                 balloons[index].GetComponent<Animator>().enabled = true;
-                Destroy(balloons[index], 0.333f);
+                Destroy(balloons[index], Global.popAnimationDuration);
                 balloons[index] = null;
             } else
             {

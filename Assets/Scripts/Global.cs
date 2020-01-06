@@ -21,4 +21,6 @@ public static class Global
 
     public static int intervalBetweenErrorSounds = 3;
 
+    public static float popAnimationDuration = 0.3f;
+
 }
