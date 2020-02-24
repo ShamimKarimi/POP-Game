@@ -677,7 +677,7 @@ ScriptsOnlyBuild:
     className: TimelineAsset
   - hash:
       serializedVersion: 2
-      Hash: 039d778149302c62c77601f6ba228162
+      Hash: 61718b6cefb303525ae38e86959ba898
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: Universe3
@@ -713,7 +713,7 @@ ScriptsOnlyBuild:
     className: MarkerTrack
   - hash:
       serializedVersion: 2
-      Hash: d4972a1ec6b7a91cada375978593268a
+      Hash: 61718b6cefb303525ae38e86959ba898
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: Universe4

@@ -11,13 +11,13 @@ public static class Global
     public static float balloonAnimationSpeed = 2.0f; //how fast it moves
     public static float balloonAnimationDelta = 0.005f; //how much it moves
 
-    public static float balloonVerticalTranslationDelta = 0.04f;
+    public static float balloonVerticalTranslationDelta = 0.03f;
 
     public static int timeToNextBalloonMin = 2;
     public static int timeToNextBalloonMax = 4;
 
-    public static int colorX = -800;
-    public static int colorY = 400;
+    public static int colorX = -1220;
+    public static int colorY = 600;
 
     public static int intervalBetweenErrorSounds = 3;
 
