@@ -1,10 +1,11 @@
 ﻿<Properties StartupConfiguration="{454F68FC-AD6A-3CBB-CCBF-E94441C2F9B0}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Global.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/1/Universe.cs">
     <Files>
-      <File FileName="Assets/Scripts/3/Universe3.cs" Line="75" Column="49" />
-      <File FileName="Assets/Scripts/4/Universe4.cs" Line="149" Column="23" />
+      <File FileName="Assets/Scripts/1/Universe.cs" Line="224" Column="52" />
+      <File FileName="Assets/Scripts/Global.cs" Line="24" Column="1" />
       <File FileName="Assets/Scripts/2/Universe2.cs" />
-      <File FileName="Assets/Scripts/Global.cs" Line="20" Column="33" />
+      <File FileName="Assets/Scripts/3/Universe3.cs" />
+      <File FileName="Assets/Scripts/4/Universe4.cs" Line="177" Column="10" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -12,11 +13,12 @@
           <Node name="POP-Game" expanded="True">
             <Node name="Assets" expanded="True">
               <Node name="Scripts" expanded="True">
-                <Node name="1" expanded="True" />
+                <Node name="1" expanded="True">
+                  <Node name="Universe.cs" selected="True" />
+                </Node>
                 <Node name="2" expanded="True" />
                 <Node name="3" expanded="True" />
                 <Node name="4" expanded="True" />
-                <Node name="Global.cs" selected="True" />
               </Node>
             </Node>
           </Node>
@@ -26,7 +28,7 @@
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="25d15545-922c-4c01-90bc-fbbaf513f218" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="8784b458-f428-42b5-9ac1-eb28247b2d22" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>

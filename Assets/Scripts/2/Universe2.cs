@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.IO;
 
 public class Universe2 : MonoBehaviour
 {
@@ -26,6 +27,8 @@ public class Universe2 : MonoBehaviour
     float[] balloonsX = { -6.3f, -2.2f, 2f, 6.2f };
 
     int numberOfBalloonsInTotal = 0;
+
+    [SerializeField] private Game2 game2Data = new Game2();
 
 
     // Start is called before the first frame update
@@ -100,14 +103,14 @@ public class Universe2 : MonoBehaviour
             int randomIndex = Random.Range(0, 4);
             if (balloons[randomIndex] == null)
             {
-                balloons[randomIndex] = InstantiateRandomColoredBalloon(balloonsX[randomIndex]);
+                balloons[randomIndex] = InstantiateRandomColoredBalloon(randomIndex);
                 instantiatedBalloon = balloons[randomIndex];
             }
         }
 
     }
 
-    public GameObject InstantiateRandomColoredBalloon(float positionX)
+    public GameObject InstantiateRandomColoredBalloon(int position)
     {
         int random = Random.Range(0, 6);
         Object original;
@@ -137,7 +140,10 @@ public class Universe2 : MonoBehaviour
                 break;
         }
 
-        return InstantiateBalloon(original, positionX);
+        // Save the data of the generated balloon in data object
+        game2Data.events.Add(new Event(Global.generateType, position, random));
+
+        return InstantiateBalloon(original, balloonsX[position]);
     }
 
     public GameObject InstantiateBalloon(Object original, float positionX)
@@ -148,7 +154,9 @@ public class Universe2 : MonoBehaviour
 
     public void OnMovement(string position)
     {
-        Debug.Log("OnMovement called: " + position);
+        //Debug.Log("OnMovement called: " + position);
+
+        game2Data.messages.Add(position);
 
         float[] yLevelMin = { -6.35f, -3.85f, -1.35f };
         float[] yLevelMax = { -2f, 0.5f, 3f };
@@ -156,27 +164,27 @@ public class Universe2 : MonoBehaviour
         switch (position)
         {
             case "DR":
-                OnPop(2, yLevelMin[0], yLevelMax[0]);
+                OnPop(2, yLevelMin[0], yLevelMax[0], position);
                 break;
 
             case "DL":
-                OnPop(1, yLevelMin[0], yLevelMax[0]);
+                OnPop(1, yLevelMin[0], yLevelMax[0], position);
                 break;
 
             case "UR":
-                OnPop(2, yLevelMin[2], yLevelMax[2]);
+                OnPop(2, yLevelMin[2], yLevelMax[2], position);
                 break;
 
             case "UL":
-                OnPop(1, yLevelMin[2], yLevelMax[2]);
+                OnPop(1, yLevelMin[2], yLevelMax[2], position);
                 break;
 
             case "SR":
-                OnPop(3, yLevelMin[1], yLevelMax[1]);
+                OnPop(3, yLevelMin[1], yLevelMax[1], position);
                 break;
 
             case "SL":
-                OnPop(0, yLevelMin[1], yLevelMax[1]);
+                OnPop(0, yLevelMin[1], yLevelMax[1], position);
                 break;
         }
 
@@ -186,7 +194,7 @@ public class Universe2 : MonoBehaviour
         }
     }
 
-    public void OnPop(int index, float yMin, float yMax)
+    public void OnPop(int index, float yMin, float yMax, string position)
     {
         if (balloons[index] != null)
         {
@@ -195,11 +203,69 @@ public class Universe2 : MonoBehaviour
             {
                 audioSource.PlayOneShot(pop, 0.7F);
                 balloons[index].GetComponent<Animator>().enabled = true;
-                Destroy(balloons[index], 0.333f);
+                Destroy(balloons[index], Global.popAnimationDuration);
                 balloons[index] = null;
+
+                // Save the data of the hit balloon in data object
+                game2Data.events.Add(new Event(Global.hitType, position));
             }
         }
     }
 
+    public void SaveIntoJson()
+    {
+        Debug.Log("save button was clicked");
+
+
+        string dataFolderPath = Application.persistentDataPath + "/Data/" + System.DateTime.Now.ToString("dd-MM-yyyy");
+
+        if (!Directory.Exists(dataFolderPath))
+        {
+            //if it doesn't, create it
+            Directory.CreateDirectory(dataFolderPath);
+
+        }
+
+        string data = JsonUtility.ToJson(game2Data);
+        File.WriteAllText(dataFolderPath + "/Game_2_" + System.DateTime.Now.ToString("hh-mm-ss") + ".json", data);
+    }
+
+    void OnApplicationQuit()
+    {
+        SaveIntoJson();
+    }
+
+    [System.Serializable]
+    public class Game2
+    {
+        public List<Event> events = new List<Event>();
+        public List<string> messages = new List<string>();
+    }
+
+    [System.Serializable]
+    public class Event
+    {
+        public string timestamp;
+        public string type;
+        public string position;
+        public string color;
+
+        // generate balloon data constructor
+        public Event(string _type, int _position, int _color)
+        {
+            timestamp = Time.timeSinceLevelLoad.ToString();
+            type = _type;
+            position = Global.columnPositions[_position];
+            color = Global.colors[_color];
+        }
+
+        // hit data constructor
+        public Event(string _type, string _position)
+        {
+            timestamp = Time.timeSinceLevelLoad.ToString();
+            type = _type;
+            position = _position;
+        }
+    }
 
 }

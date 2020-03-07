@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.IO;
 
 public class Universe3 : MonoBehaviour
 {
@@ -36,6 +37,8 @@ public class Universe3 : MonoBehaviour
     int numberOfBalloonsInTotal = 0;
 
     float[] lastErrorSoundTime;
+
+    [SerializeField] private Game3 game3Data = new Game3();
 
 
     // Start is called before the first frame update
@@ -123,7 +126,7 @@ public class Universe3 : MonoBehaviour
             int randomIndex = Random.Range(0, 6);
             if (balloons[randomIndex] == null)
             {
-                balloons[randomIndex] = InstantiateRandomColoredBalloon(balloonsX[randomIndex], balloonsY[randomIndex]);
+                balloons[randomIndex] = InstantiateRandomColoredBalloon(randomIndex);
                 balloonsInstantiationTime[randomIndex] = Time.timeSinceLevelLoad;
                 instantiatedBalloon = balloons[randomIndex];
             }
@@ -131,7 +134,7 @@ public class Universe3 : MonoBehaviour
 
     }
 
-    public GameObject InstantiateRandomColoredBalloon(float positionX, float positionY)
+    public GameObject InstantiateRandomColoredBalloon(int position)
     {
         int random = Random.Range(0, 3);
         Object original;
@@ -152,7 +155,11 @@ public class Universe3 : MonoBehaviour
                 break;
         }
 
-        return InstantiateBalloon(original, positionX, positionY);
+
+        // Save the data of the generated balloon in data object
+        game3Data.events.Add(new Event(Global.generateType, position, random));
+
+        return InstantiateBalloon(original, balloonsX[position], balloonsY[position]);
     }
 
     public GameObject InstantiateBalloon(Object original, float positionX, float positionY)
@@ -170,12 +177,15 @@ public class Universe3 : MonoBehaviour
         {
             case 0:
                 original = green;
+                game3Data.color = "green";
                 break;
             case 1:
                 original = red;
+                game3Data.color = "red";
                 break;
             case 2:
                 original = blue;
+                game3Data.color = "blue";
                 break;
             default:
                 original = green;
@@ -184,12 +194,15 @@ public class Universe3 : MonoBehaviour
 
         GameObject color = Instantiate(original, new Vector3(Global.colorX, Global.colorY, 0), Quaternion.identity) as GameObject;
         color.transform.SetParent(canvas.transform, false);
+
         return color;
     }
 
     public void OnMovement(string position)
     {
-        Debug.Log("OnMovement called: " + position);
+        //Debug.Log("OnMovement called: " + position);
+
+        game3Data.messages.Add(position);
 
         switch (position)
         {
@@ -236,8 +249,11 @@ public class Universe3 : MonoBehaviour
                 numberOfBalloonsOnScreen--;
                 audioSource.PlayOneShot(pop, 0.7F);
                 balloons[index].GetComponent<Animator>().enabled = true;
-                Destroy(balloons[index], 0.333f);
+                Destroy(balloons[index], Global.popAnimationDuration);
                 balloons[index] = null;
+
+                // Save the data of the hit balloon in data object
+                game3Data.events.Add(new Event(Global.hitType, index));
             } else
             {
                 if ((!Equals(lastErrorSoundTime[index], 0))
@@ -245,6 +261,9 @@ public class Universe3 : MonoBehaviour
                 {
                     lastErrorSoundTime[index] = Time.timeSinceLevelLoad;
                     audioSource.PlayOneShot(error, 0.7F);
+
+                    // Save the data of the missed balloon in data object
+                    game3Data.events.Add(new Event(Global.missType, index));
                 }
                 
             }
@@ -252,7 +271,60 @@ public class Universe3 : MonoBehaviour
         }
     }
 
+    public void SaveIntoJson()
+    {
+        Debug.Log("save button was clicked");
 
+        string dataFolderPath = Application.persistentDataPath + "/Data/" + System.DateTime.Now.ToString("dd-MM-yyyy");
+
+        if (!Directory.Exists(dataFolderPath))
+        {
+            //if it doesn't, create it
+            Directory.CreateDirectory(dataFolderPath);
+
+        }
+
+        string data = JsonUtility.ToJson(game3Data);
+        File.WriteAllText(dataFolderPath + "/Game_3_" + System.DateTime.Now.ToString("hh-mm-ss") + ".json", data);
+    }
+
+    void OnApplicationQuit()
+    {
+        SaveIntoJson();
+    }
+
+    [System.Serializable]
+    public class Game3
+    {
+
+        public string color;
+        public List<Event> events = new List<Event>();
+        public List<string> messages = new List<string>();
+    }
+
+    [System.Serializable]
+    public class Event
+    {
+        public string timestamp;
+        public string type;
+        public string position;
+        public string color;
+
+        public Event(string _type, int _position, int _color)
+        {
+            timestamp = Time.timeSinceLevelLoad.ToString();
+            type = _type;
+            position = Global.targetPositions[_position];
+            color = Global.mainColors[_color];
+        }
+
+        public Event(string _type, int _position)
+        {
+            timestamp = Time.timeSinceLevelLoad.ToString();
+            type = _type;
+            position = Global.targetPositions[_position];
+        }
+    }
 
 
 }

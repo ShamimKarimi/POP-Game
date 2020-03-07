@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.IO;
 
 public class Universe : MonoBehaviour
 {
@@ -14,10 +15,8 @@ public class Universe : MonoBehaviour
     public GameObject cyan_balloon;
     public AudioClip pop;
     public AudioClip blop;
+    public AudioClip fanfare;
     AudioSource audioSource;
-
-    // UI
-    GameObject nextSceneButton;
 
     // Array of balloons
     GameObject[] balloons;
@@ -30,6 +29,8 @@ public class Universe : MonoBehaviour
     int numberOfBalloonsOnScreen = 0;
     int numberOfBalloonsInTotal = 0;
 
+    [SerializeField] private Game1 game1Data = new Game1();
+
 
     // Start is called before the first frame update
     void Start()
@@ -38,10 +39,6 @@ public class Universe : MonoBehaviour
         balloons = new GameObject[6];
 
         audioSource = GetComponent<AudioSource>();
-
-        //nextSceneButton = GameObject.Find("NextSceneButton");
-        //nextSceneButton.SetActive(false);
-
 
     }
 
@@ -95,14 +92,14 @@ public class Universe : MonoBehaviour
             int randomIndex = Random.Range(0, 6);
             if (balloons[randomIndex] == null)
             {
-                balloons[randomIndex] = InstantiateRandomColoredBalloon(balloonsX[randomIndex], balloonsY[randomIndex]);
+                balloons[randomIndex] = InstantiateRandomColoredBalloon(randomIndex);
                 instantiatedBalloon = balloons[randomIndex];
             }
         }
 
     }
 
-    public GameObject InstantiateRandomColoredBalloon(float positionX, float positionY)
+    public GameObject InstantiateRandomColoredBalloon(int randomIndex)
     {
         int random = Random.Range(0, 6);
         Object original;
@@ -132,7 +129,10 @@ public class Universe : MonoBehaviour
                 break;
         }
 
-        return InstantiateBalloon(original, positionX, positionY);
+        // Save the data of the generated balloon in data object
+        game1Data.events.Add(new Event(Global.generateType, randomIndex, random));
+
+        return InstantiateBalloon(original, balloonsX[randomIndex], balloonsY[randomIndex]);
     }
 
     public GameObject InstantiateBalloon(Object original, float positionX, float positionY)
@@ -143,63 +143,149 @@ public class Universe : MonoBehaviour
 
     public void OnMovement(string position)
     {
-        Debug.Log("OnMovement called: " + position);
+        //Debug.Log("OnMovement called: " + position);
+
+        game1Data.messages.Add(position);
 
         switch (position)
         {
             case "DR":
-                OnPop(balloons[0]);
+                OnPop(balloons[0], 0);
                 balloons[0] = null;
                 break;
 
             case "DL":
-                OnPop(balloons[1]);
+                OnPop(balloons[1], 1);
                 balloons[1] = null;
                 break;
 
             case "UR":
-                OnPop(balloons[2]);
+                OnPop(balloons[2], 2);
                 balloons[2] = null;
                 break;
 
             case "UL":
-                OnPop(balloons[3]);
+                OnPop(balloons[3], 3);
                 balloons[3] = null;
                 break;
 
             case "SR":
-                OnPop(balloons[4]);
+                OnPop(balloons[4], 4);
                 balloons[4] = null;
                 break;
 
             case "SL":
-                OnPop(balloons[5]);
+                OnPop(balloons[5], 5);
                 balloons[5] = null;
                 break;
 
             default:
                 break;
         }
-
-        if (numberOfBalloonsInTotal == Global.maxNumberOfBalloonsInTotal)
-        {
-           // nextSceneButton.SetActive(true);
-        }
     }
 
-    public void OnPop(GameObject balloon)
+    public void OnPop(GameObject balloon, int position)
     {
         if (balloon != null)
         {
             numberOfBalloonsOnScreen--;
             audioSource.PlayOneShot(pop, 0.7F);
             balloon.GetComponent<Animator>().enabled = true;
-            Destroy(balloon, 0.333f);
+            Destroy(balloon, Global.popAnimationDuration);
+
+            // Save the data of the hit balloon in data object
+            game1Data.events.Add(new Event(Global.hitType, position));
+
+            if (numberOfBalloonsInTotal == Global.maxNumberOfBalloonsInTotal)
+            {
+                foreach (GameObject b in balloons)
+                {
+                    if (b != null)
+                    {
+                        break;
+                    }
+
+                    if (!IsGameFinished)
+                    {
+                        PlayEnding();
+                    }
+                }
+            }
         }
     }
 
+    bool IsGameFinished;
+
+    public void PlayEnding()
+    {
+
+        IsGameFinished = true;
+
+        GameObject.Find("Targets").SetActive(false);
+
+        Debug.Log("play ending");
+
+        for (var i = 1; i < 8; i++)
+        {
+            GameObject.Find("p" + i.ToString()).GetComponentInChildren<ParticleSystem>().Play();
+        }
+
+        audioSource.PlayOneShot(fanfare, 1.0F);
 
 
+    }
 
+    public void SaveIntoJson()
+    {
+        Debug.Log("save button was clicked");
+
+        string dataFolderPath = Application.persistentDataPath + "/Data/" + System.DateTime.Now.ToString("dd-MM-yyyy");
+
+        if (!Directory.Exists(dataFolderPath))
+        {
+            //if it doesn't, create it
+            Directory.CreateDirectory(dataFolderPath);
+
+        }
+
+        string data = JsonUtility.ToJson(game1Data);
+        File.WriteAllText(dataFolderPath + "/Game_1_" + System.DateTime.Now.ToString("hh-mm-ss") + ".json", data);
+    }
+
+    void OnApplicationQuit()
+    {
+        SaveIntoJson();
+    }
+
+    [System.Serializable]
+    public class Game1
+    {
+        public List<Event> events = new List<Event>();
+        public List<string> messages = new List<string>();
+    }
+
+    [System.Serializable]
+    public class Event
+    {
+        public string timestamp;
+        public string type;
+        public string position;
+        public string color;
+
+        public Event(string _type, int _position, int _color)
+        {
+            timestamp = Time.timeSinceLevelLoad.ToString();
+            type = _type;
+            position = Global.targetPositions[_position];
+            color = Global.colors[_color];
+        }
+
+        public Event(string _type, int _position)
+        {
+            timestamp = Time.timeSinceLevelLoad.ToString();
+            type = _type;
+            position = Global.targetPositions[_position];
+        }
+    }
 }
 
