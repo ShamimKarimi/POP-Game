@@ -68,6 +68,7 @@
     <Compile Include="Assets\Scripts\2\Universe2.cs" />
     <Compile Include="Assets\Scripts\3\Universe3.cs" />
     <Compile Include="Assets\Scripts\4\Universe4.cs" />
+    <Compile Include="Assets\Scripts\Calibration.cs" />
     <Compile Include="Assets\Scripts\Global.cs" />
     <Compile Include="Assets\Scripts\Menu\ButtonHandler.cs" />
     <Compile Include="Assets\Scripts\MenuButtonHandler.cs" />

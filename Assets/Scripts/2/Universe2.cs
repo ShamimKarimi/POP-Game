@@ -233,6 +233,7 @@ public class Universe2 : MonoBehaviour
             if (!IsAnyBalloonLeft && !AlreadyPlayedEnding)
             {
                 PlayEnding();
+                SaveIntoJson();
             }
         }
     }

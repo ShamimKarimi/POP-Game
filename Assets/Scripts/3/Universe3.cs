@@ -197,6 +197,7 @@ public class Universe3 : MonoBehaviour
         }
 
         GameObject color = Instantiate(original, new Vector3(Global.colorX, Global.colorY, 0), Quaternion.identity) as GameObject;
+        color.name = "Color";
         color.transform.SetParent(canvas.transform, false);
 
         return color;
@@ -296,6 +297,7 @@ public class Universe3 : MonoBehaviour
             if (!IsAnyBalloonLeft && !AlreadyPlayedEnding)
             {
                 PlayEnding();
+                SaveIntoJson();
             }
         }
     }
@@ -308,6 +310,7 @@ public class Universe3 : MonoBehaviour
         AlreadyPlayedEnding = true;
 
         GameObject.Find("Targets").SetActive(false);
+        GameObject.Find("Color").SetActive(false);
 
         Debug.Log("play ending");
 

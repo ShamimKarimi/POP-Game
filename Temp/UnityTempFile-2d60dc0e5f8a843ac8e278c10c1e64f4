@@ -294,6 +294,7 @@
 "Assets/Scripts/2/Universe2.cs"
 "Assets/Scripts/3/Universe3.cs"
 "Assets/Scripts/4/Universe4.cs"
+"Assets/Scripts/Calibration.cs"
 "Assets/Scripts/Global.cs"
 "Assets/Scripts/Menu/ButtonHandler.cs"
 "Assets/Scripts/MenuButtonHandler.cs"
