@@ -15,6 +15,7 @@ public class Universe2 : MonoBehaviour
     public GameObject cyan_balloon;
     public AudioClip pop;
     public AudioClip blop;
+    public AudioClip fanfare;
     AudioSource audioSource;
 
     // UI
@@ -24,7 +25,7 @@ public class Universe2 : MonoBehaviour
     GameObject[] balloons;
 
     // left to right
-    float[] balloonsX = { -6.3f, -2.2f, 2f, 6.2f };
+    float[] balloonsX = { -6.3f, -2.2f, 2f, 6.2f, -6.3f, -2.2f, 2f, 6.2f };
 
     int numberOfBalloonsInTotal = 0;
 
@@ -35,12 +36,9 @@ public class Universe2 : MonoBehaviour
     void Start()
     {
 
-        balloons = new GameObject[4];
+        balloons = new GameObject[8];
 
         audioSource = GetComponent<AudioSource>();
-
-        //nextSceneButton = GameObject.Find("NextSceneButton");
-        //nextSceneButton.SetActive(false);
     }
 
     private float nextActionTime = 0.0f;
@@ -80,6 +78,8 @@ public class Universe2 : MonoBehaviour
             {
                 balloons[index] = null;
                 Destroy(balloon);
+
+                IsGameFinished();
             }
             // moving up, visible on the screen
             else
@@ -100,7 +100,7 @@ public class Universe2 : MonoBehaviour
 
         while (instantiatedBalloon == null)
         {
-            int randomIndex = Random.Range(0, 4);
+            int randomIndex = Random.Range(0, 8);
             if (balloons[randomIndex] == null)
             {
                 balloons[randomIndex] = InstantiateRandomColoredBalloon(randomIndex);
@@ -165,32 +165,33 @@ public class Universe2 : MonoBehaviour
         {
             case "DR":
                 OnPop(2, yLevelMin[0], yLevelMax[0], position);
+                OnPop(6, yLevelMin[0], yLevelMax[0], position);
                 break;
 
             case "DL":
                 OnPop(1, yLevelMin[0], yLevelMax[0], position);
+                OnPop(5, yLevelMin[0], yLevelMax[0], position);
                 break;
 
             case "UR":
                 OnPop(2, yLevelMin[2], yLevelMax[2], position);
+                OnPop(6, yLevelMin[2], yLevelMax[2], position);
                 break;
 
             case "UL":
                 OnPop(1, yLevelMin[2], yLevelMax[2], position);
+                OnPop(5, yLevelMin[2], yLevelMax[2], position);
                 break;
 
             case "SR":
                 OnPop(3, yLevelMin[1], yLevelMax[1], position);
+                OnPop(7, yLevelMin[1], yLevelMax[1], position);
                 break;
 
             case "SL":
                 OnPop(0, yLevelMin[1], yLevelMax[1], position);
+                OnPop(4, yLevelMin[1], yLevelMax[1], position);
                 break;
-        }
-
-        if (numberOfBalloonsInTotal == Global.maxNumberOfBalloonsInTotal)
-        {
-            // end of game
         }
     }
 
@@ -208,8 +209,53 @@ public class Universe2 : MonoBehaviour
 
                 // Save the data of the hit balloon in data object
                 game2Data.events.Add(new Event(Global.hitType, position));
+
+                IsGameFinished();
             }
         }
+    }
+
+    public void IsGameFinished()
+    {
+        if (numberOfBalloonsInTotal == Global.maxNumberOfBalloonsInTotal)
+        {
+            bool IsAnyBalloonLeft = false;
+
+            foreach (GameObject b in balloons)
+            {
+                if (b != null)
+                {
+                    IsAnyBalloonLeft = true;
+                }
+               
+            }
+
+            if (!IsAnyBalloonLeft && !AlreadyPlayedEnding)
+            {
+                PlayEnding();
+            }
+        }
+    }
+
+    bool AlreadyPlayedEnding;
+
+    public void PlayEnding()
+    {
+
+        AlreadyPlayedEnding = true;
+
+        GameObject.Find("Targets").SetActive(false);
+
+        Debug.Log("play ending");
+
+        for (var i = 1; i < 8; i++)
+        {
+            GameObject.Find("p" + i.ToString()).GetComponentInChildren<ParticleSystem>().Play();
+        }
+
+        audioSource.PlayOneShot(fanfare, 1.0F);
+
+
     }
 
     public void SaveIntoJson()
@@ -253,6 +299,11 @@ public class Universe2 : MonoBehaviour
         // generate balloon data constructor
         public Event(string _type, int _position, int _color)
         {
+
+            if (_position > 3)
+            {
+                _position -= 4;
+            }
             timestamp = Time.timeSinceLevelLoad.ToString();
             type = _type;
             position = Global.columnPositions[_position];

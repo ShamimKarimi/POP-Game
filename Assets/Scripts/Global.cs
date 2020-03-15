@@ -25,7 +25,7 @@ public static class Global
     public static float balloonVerticalTranslationDelta = 0.03f;
 
     public static int timeToNextBalloonMin = 2;
-    public static int timeToNextBalloonMax = 4;
+    public static int timeToNextBalloonMax = 3;
 
     public static int colorX = -1220;
     public static int colorY = 600;

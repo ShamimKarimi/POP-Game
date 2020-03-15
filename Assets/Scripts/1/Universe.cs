@@ -150,33 +150,27 @@ public class Universe : MonoBehaviour
         switch (position)
         {
             case "DR":
-                OnPop(balloons[0], 0);
-                balloons[0] = null;
+                OnPop(0);
                 break;
 
             case "DL":
-                OnPop(balloons[1], 1);
-                balloons[1] = null;
+                OnPop(1);
                 break;
 
             case "UR":
-                OnPop(balloons[2], 2);
-                balloons[2] = null;
+                OnPop(2);
                 break;
 
             case "UL":
-                OnPop(balloons[3], 3);
-                balloons[3] = null;
+                OnPop(3);
                 break;
 
             case "SR":
-                OnPop(balloons[4], 4);
-                balloons[4] = null;
+                OnPop(4);
                 break;
 
             case "SL":
-                OnPop(balloons[5], 5);
-                balloons[5] = null;
+                OnPop(5);
                 break;
 
             default:
@@ -184,42 +178,51 @@ public class Universe : MonoBehaviour
         }
     }
 
-    public void OnPop(GameObject balloon, int position)
+    public void OnPop(int index)
     {
-        if (balloon != null)
+        if (balloons[index] != null)
         {
             numberOfBalloonsOnScreen--;
             audioSource.PlayOneShot(pop, 0.7F);
-            balloon.GetComponent<Animator>().enabled = true;
-            Destroy(balloon, Global.popAnimationDuration);
+            balloons[index].GetComponent<Animator>().enabled = true;
+            Destroy(balloons[index], Global.popAnimationDuration);
+            balloons[index] = null;
 
             // Save the data of the hit balloon in data object
-            game1Data.events.Add(new Event(Global.hitType, position));
+            game1Data.events.Add(new Event(Global.hitType, index));
 
-            if (numberOfBalloonsInTotal == Global.maxNumberOfBalloonsInTotal)
+            IsGameFinished();
+        }
+    }
+
+    public void IsGameFinished()
+    {
+        if (numberOfBalloonsInTotal == Global.maxNumberOfBalloonsInTotal)
+        {
+            bool IsAnyBalloonLeft = false;
+
+            foreach (GameObject b in balloons)
             {
-                foreach (GameObject b in balloons)
+                if (b != null)
                 {
-                    if (b != null)
-                    {
-                        break;
-                    }
-
-                    if (!IsGameFinished)
-                    {
-                        PlayEnding();
-                    }
+                    IsAnyBalloonLeft = true;
                 }
+
+            }
+
+            if (!IsAnyBalloonLeft && !AlreadyPlayedEnding)
+            {
+                PlayEnding();
             }
         }
     }
 
-    bool IsGameFinished;
+    bool AlreadyPlayedEnding;
 
     public void PlayEnding()
     {
 
-        IsGameFinished = true;
+        AlreadyPlayedEnding = true;
 
         GameObject.Find("Targets").SetActive(false);
 

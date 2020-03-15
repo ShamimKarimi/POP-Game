@@ -18,6 +18,7 @@ public class Universe3 : MonoBehaviour
     public AudioClip pop;
     public AudioClip blop;
     public AudioClip error;
+    public AudioClip fanfare;
     AudioSource audioSource;
 
     GameObject canvas;
@@ -76,7 +77,10 @@ public class Universe3 : MonoBehaviour
                         lastErrorSoundTime[i] = 0;
                         numberOfBalloonsOnScreen--;
                         Destroy(balloons[i], 0);
-                    } 
+                        balloons[i] = null;
+
+                        IsGameFinished();
+                    }
                 }
             }
 
@@ -254,6 +258,9 @@ public class Universe3 : MonoBehaviour
 
                 // Save the data of the hit balloon in data object
                 game3Data.events.Add(new Event(Global.hitType, index));
+
+                IsGameFinished();
+
             } else
             {
                 if ((!Equals(lastErrorSoundTime[index], 0))
@@ -269,6 +276,48 @@ public class Universe3 : MonoBehaviour
             }
 
         }
+    }
+
+    public void IsGameFinished()
+    {
+        if (numberOfBalloonsInTotal == Global.maxNumberOfBalloonsInTotal)
+        {
+            bool IsAnyBalloonLeft = false;
+
+            foreach (GameObject b in balloons)
+            {
+                if (b != null)
+                {
+                    IsAnyBalloonLeft = true;
+                }
+
+            }
+
+            if (!IsAnyBalloonLeft && !AlreadyPlayedEnding)
+            {
+                PlayEnding();
+            }
+        }
+    }
+
+    bool AlreadyPlayedEnding;
+
+    public void PlayEnding()
+    {
+
+        AlreadyPlayedEnding = true;
+
+        GameObject.Find("Targets").SetActive(false);
+
+        Debug.Log("play ending");
+
+        for (var i = 1; i < 8; i++)
+        {
+            GameObject.Find("p" + i.ToString()).GetComponentInChildren<ParticleSystem>().Play();
+        }
+
+        audioSource.PlayOneShot(fanfare, 1.0F);
+
     }
 
     public void SaveIntoJson()
