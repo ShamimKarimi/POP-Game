@@ -23,6 +23,8 @@ public class Universe4 : MonoBehaviour
 
     GameObject canvas;
 
+    GameObject color;
+
     // Array of balloons
     GameObject[] balloons;
 
@@ -179,8 +181,7 @@ public class Universe4 : MonoBehaviour
                 break;
         }
 
-        GameObject color = Instantiate(original, new Vector3(Global.colorX, Global.colorY, 0), Quaternion.identity) as GameObject;
-        color.name = "Color";
+        color = Instantiate(original, new Vector3(Global.colorX, Global.colorY, 0), Quaternion.identity) as GameObject;
         color.transform.SetParent(canvas.transform, false);
 
         return color;
@@ -297,7 +298,7 @@ public class Universe4 : MonoBehaviour
         AlreadyPlayedEnding = true;
 
         GameObject.Find("Targets").SetActive(false);
-        GameObject.Find("Color").SetActive(false);
+        color.SetActive(false);
 
         Debug.Log("play ending");
 

@@ -40,14 +40,16 @@ public class Universe : MonoBehaviour
 
         audioSource = GetComponent<AudioSource>();
 
+        Timer();
+
     }
 
-    private float nextActionTime = 0.0f;
+    private float nextActionTime;
 
-    // Update is called once per frame
-    void Update()
+    
+
+    void Timer()
     {
-
         foreach (GameObject balloon in balloons)
         {
             MoveBalloon(balloon);
@@ -65,6 +67,7 @@ public class Universe : MonoBehaviour
 
         }
 
+        Invoke("Timer", Global.TimerInterval);
     }
 
 

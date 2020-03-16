@@ -5,6 +5,8 @@ using UnityEngine;
 public static class Global
 {
 
+    public static float TimerInterval = 0.02f;
+
     public static string[] targetPositions = { "DR", "DL", "UR", "UL", "SR", "SL" };
     public static string[] columnPositions = { "LL", "ML", "MR", "RR" };
 

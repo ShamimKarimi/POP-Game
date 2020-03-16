@@ -23,6 +23,8 @@ public class Universe3 : MonoBehaviour
 
     GameObject canvas;
 
+    GameObject color;
+
     // Array of balloons
     GameObject[] balloons;
 
@@ -56,15 +58,15 @@ public class Universe3 : MonoBehaviour
 
         colorIndicator = InstantiateRandomColor();
 
+        Timer();
+
 
     }
 
-    private float nextActionTime = 0.0f;
+    private float nextActionTime;
 
-    // Update is called once per frame
-    void Update()
+    void Timer()
     {
-
         for (int i = 0; i < 6; i++)
         {
             if (balloons[i] != null)
@@ -103,6 +105,7 @@ public class Universe3 : MonoBehaviour
 
         }
 
+        Invoke("Timer", Global.TimerInterval);
     }
 
 
@@ -196,8 +199,7 @@ public class Universe3 : MonoBehaviour
                 break;
         }
 
-        GameObject color = Instantiate(original, new Vector3(Global.colorX, Global.colorY, 0), Quaternion.identity) as GameObject;
-        color.name = "Color";
+        color = Instantiate(original, new Vector3(Global.colorX, Global.colorY, 0), Quaternion.identity) as GameObject;
         color.transform.SetParent(canvas.transform, false);
 
         return color;
@@ -310,7 +312,7 @@ public class Universe3 : MonoBehaviour
         AlreadyPlayedEnding = true;
 
         GameObject.Find("Targets").SetActive(false);
-        GameObject.Find("Color").SetActive(false);
+        color.SetActive(false);
 
         Debug.Log("play ending");
 

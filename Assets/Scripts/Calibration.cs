@@ -43,18 +43,18 @@ public class Calibration : MonoBehaviour
         CurrentIndex = 0;
         InstantiateNextBalloon();
 
+        Timer();
+
     }
 
-
-    // Update is called once per frame
-    void Update()
+    void Timer()
     {
-
         foreach (GameObject balloon in balloons)
         {
             MoveBalloon(balloon);
         }
 
+        Invoke("Timer", Global.TimerInterval);
     }
 
 
