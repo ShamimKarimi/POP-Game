@@ -1,12 +1,12 @@
 ﻿<Properties StartupConfiguration="{454F68FC-AD6A-3CBB-CCBF-E94441C2F9B0}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Global.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/4/Universe4.cs">
     <Files>
-      <File FileName="Assets/Scripts/Global.cs" Line="26" Column="1" />
+      <File FileName="Assets/Scripts/Global.cs" Line="17" Column="52" />
       <File FileName="Assets/Scripts/Calibration.cs" />
       <File FileName="Assets/Scripts/1/Universe.cs" />
       <File FileName="Assets/Scripts/2/Universe2.cs" />
-      <File FileName="Assets/Scripts/3/Universe3.cs" Line="81" Column="1" />
-      <File FileName="Assets/Scripts/4/Universe4.cs" />
+      <File FileName="Assets/Scripts/3/Universe3.cs" Line="467" Column="10" />
+      <File FileName="Assets/Scripts/4/Universe4.cs" Line="466" Column="14" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -17,8 +17,9 @@
                 <Node name="1" expanded="True" />
                 <Node name="2" expanded="True" />
                 <Node name="3" expanded="True" />
-                <Node name="4" expanded="True" />
-                <Node name="Global.cs" selected="True" />
+                <Node name="4" expanded="True">
+                  <Node name="Universe4.cs" selected="True" />
+                </Node>
               </Node>
             </Node>
           </Node>

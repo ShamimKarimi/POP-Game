@@ -23,8 +23,6 @@ public class Universe4 : MonoBehaviour
 
     GameObject canvas;
 
-    GameObject color;
-
     // Array of balloons
     GameObject[] balloons;
 
@@ -32,6 +30,8 @@ public class Universe4 : MonoBehaviour
     float[] balloonsX = { -6.3f, -2.2f, 2f, 6.2f, -6.3f, -2.2f, 2f, 6.2f };
 
     GameObject colorIndicator;
+
+    int[] isColorPredefined = new int[Global.maxNumberOfBalloonsInTotal];
 
     int numberOfBalloonsInTotal = 0;
 
@@ -52,12 +52,60 @@ public class Universe4 : MonoBehaviour
         canvas = GameObject.Find("Canvas");
 
         colorIndicator = InstantiateRandomColor();
+
+        InitializeColors();
+
+        Timer();
     }
 
-    private float nextActionTime = 0.0f;
+    public void InitializeColors()
+    {
+        isColorPredefined[0] = 1;
+        isColorPredefined[Global.maxNumberOfBalloonsInTotal - 1] = 1;
 
-    // Update is called once per frame
-    void Update()
+        int[] indices = new int[Global.maxNumberOfBalloonsInTotal - 2];
+
+        for (int i = 0; i < Global.maxNumberOfBalloonsInTotal - 2; i++)
+        {
+            indices[i] = i + 1;
+        }
+
+        Shuffle(indices);
+
+        //for (int i = 0; i < Global.maxNumberOfBalloonsInTotal - 2; i++)
+        //{
+        //    Debug.Log(indices[i]);
+        //}
+
+        int n = (int)System.Math.Round(Global.targetColorPercentage * Global.maxNumberOfBalloonsInTotal) - 2;
+
+        for (int i = 0; i < n; i++)
+        {
+            isColorPredefined[indices[i]] = 1;
+        }
+
+        for (int i = 0; i < Global.maxNumberOfBalloonsInTotal; i++)
+        {
+            Debug.Log(isColorPredefined[i]);
+        }
+
+    }
+
+    static public void Shuffle(int[] deck)
+    {
+        System.Random r = new System.Random();
+        for (int n = deck.Length - 1; n > 0; --n)
+        {
+            int k = r.Next(n + 1);
+            int temp = deck[n];
+            deck[n] = deck[k];
+            deck[k] = temp;
+        }
+    }
+
+    private float nextActionTime;
+
+    void Timer()
     {
 
         for (int i = 0; i < balloons.Length; i++)
@@ -77,6 +125,7 @@ public class Universe4 : MonoBehaviour
 
         }
 
+        Invoke("Timer", Global.TimerInterval);
     }
 
     public void MoveBalloon(GameObject balloon, int index)
@@ -108,8 +157,7 @@ public class Universe4 : MonoBehaviour
 
     public void InstantiateRandomPositionedBalloon()
     {
-        numberOfBalloonsInTotal++;
-
+        
         GameObject instantiatedBalloon = null;
 
         while (instantiatedBalloon == null)
@@ -122,31 +170,76 @@ public class Universe4 : MonoBehaviour
             }
         }
 
+        numberOfBalloonsInTotal++;
+
     }
 
     public GameObject InstantiateRandomColoredBalloon(int position)
     {
-        int random = Random.Range(0, 3);
-        Object original;
 
-        switch (random)
+        Object original;
+        string colorName;
+
+        if (isColorPredefined[numberOfBalloonsInTotal] == 1)
         {
-            case 0:
+            if (game4Data.color == "green")
+            {
                 original = green_balloon;
-                break;
-            case 1:
+                colorName = "green";
+
+            }
+            else if (game4Data.color == "red")
+            {
                 original = red_balloon;
-                break;
-            case 2:
+                colorName = "red";
+
+            }
+            else
+            {
+                // blue
                 original = blue_balloon;
-                break;
-            default:
-                original = green_balloon;
-                break;
+                colorName = "blue";
+            }
+
+        }
+        else
+        {
+            Object[] options = new Object[2];
+            string[] colorNames = new string[2];
+
+            if (game4Data.color == "green")
+            {
+                options[0] = red_balloon;
+                options[1] = blue_balloon;
+                colorNames[0] = "red";
+                colorNames[1] = "blue";
+
+            }
+            else if (game4Data.color == "red")
+            {
+                options[0] = green_balloon;
+                options[1] = blue_balloon;
+                colorNames[0] = "green";
+                colorNames[1] = "blue";
+            }
+            else
+            {
+                // blue
+                options[0] = green_balloon;
+                options[1] = red_balloon;
+                colorNames[0] = "green";
+                colorNames[1] = "red";
+
+            }
+
+            int random = Random.Range(0, 2);
+            original = options[random];
+            colorName = colorNames[random];
+
         }
 
         // Save the data of the generated balloon in data object
-        game4Data.events.Add(new Event(Global.generateType, position, random));
+        game4Data.events.Add(new Event(Global.generateType, position, colorName));
 
         return InstantiateBalloon(original, balloonsX[position]);
     }
@@ -181,7 +274,7 @@ public class Universe4 : MonoBehaviour
                 break;
         }
 
-        color = Instantiate(original, new Vector3(Global.colorX, Global.colorY, 0), Quaternion.identity) as GameObject;
+        GameObject color = Instantiate(original, new Vector3(Global.colorX, Global.colorY, 0), Quaternion.identity) as GameObject;
         color.transform.SetParent(canvas.transform, false);
 
         return color;
@@ -298,7 +391,7 @@ public class Universe4 : MonoBehaviour
         AlreadyPlayedEnding = true;
 
         GameObject.Find("Targets").SetActive(false);
-        color.SetActive(false);
+        colorIndicator.SetActive(false);
 
         Debug.Log("play ending");
 
@@ -364,6 +457,20 @@ public class Universe4 : MonoBehaviour
             type = _type;
             position = Global.columnPositions[_position];
             color = Global.mainColors[_color];
+        }
+
+        public Event(string _type, int _position, string _color)
+        {
+
+            if (_position > 3)
+            {
+                _position -= 4;
+            }
+
+            timestamp = Time.timeSinceLevelLoad.ToString();
+            type = _type;
+            position = Global.targetPositions[_position];
+            color = _color;
         }
 
         // hit data constructor
