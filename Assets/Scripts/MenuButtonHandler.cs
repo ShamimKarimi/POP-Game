@@ -18,5 +18,4 @@ public class MenuButtonHandler : MonoBehaviour
         webcamStream.StopStreaming();
         SceneManager.LoadScene("Menu");
     }
-
 }
